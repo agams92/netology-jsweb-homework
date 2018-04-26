@@ -33,6 +33,18 @@
       <span class="drum-kit__drum__type">Ride</span>
   		<audio src="wav/ride.wav" />
   	</li>
-  </ul>
+	</ul>
+	<script>
+		const buttons = document.getElementsByClassName('drum-kit__drum');
+		
+		function playMusic() {
+			this.getElementsByTagName('audio')[0].play();
+		}
+
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].onclick = playMusic;
+		}
+
+	</script>
 </body>
 </html>
