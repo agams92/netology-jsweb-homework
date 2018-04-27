@@ -3,6 +3,7 @@ let sources = ['i/breuer-building.jpg','i/guggenheim-museum.jpg','i/headquarters
 let index = 0;      
 let buttonNext = document.getElementById('nextPhoto');
 let buttonPrev = document.getElementById('prevPhoto');
+let photo = document.getElementById('currentPhoto');
 
 // buttonNext.addEventListener('click', () => {
 //   index++;
@@ -24,7 +25,7 @@ buttonNext.onclick = function () {
   if(index > sources.length - 1) {
     index = 0;
   }
-  document.getElementById('currentPhoto').src = sources[index];
+  photo.src = sources[index];
 }
 
 buttonPrev.onclick = function() {
@@ -32,5 +33,5 @@ buttonPrev.onclick = function() {
   if(index < 0) {
     index = sources.length - 1;
   }
-  document.getElementById('currentPhoto').src = sources[index];
+  photo.src = sources[index];
 }
