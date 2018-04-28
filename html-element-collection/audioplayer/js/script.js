@@ -28,10 +28,9 @@ function stopMusic() {
 
 function changeSongs(i) {
     player.src = songs[i];
-    if (!(vinyl.classList.contains('play'))) {
-        vinyl.classList.toggle('play')
+    if (vinyl.classList.contains('play')) {
+        player.play()
     }
-    player.play();
     name.title = songs[i].replace(titleRule,'');
 }
 
