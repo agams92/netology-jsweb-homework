@@ -2,7 +2,7 @@
 const buttons = document.getElementsByClassName('drum-kit__drum');
 		
 function playMusic() {
-   let sound = this.getElementsByTagName('audio')[0]
+   let sound = this.getElementsByTagName('audio')[0];
    if (sound.currentTime > 0) {
        sound.load();
        sound.play();
