@@ -1,5 +1,5 @@
 let container;
-let list = '';
+
 let users = JSON.parse(loadContacts());
 
 function loadContacts() {
@@ -38,15 +38,10 @@ function init() {
 }
 
 function createUsers(){
+  let list = document.querySelector('ul.contacts-list');
   users.forEach(user => {
-    list += '<li><strong>' + user.name + '</strong></li>';
+    list.innerHTML += '<li data-email="' + user.email + '" data-phone="' + user.phone + '"><strong>' + user.name + '</strong></li>';
   });
-  document.querySelector('ul.contacts-list').innerHTML = list;
-  list = document.querySelectorAll('ul.contacts-list li');
-  for (let i = 0; i < list.length; i++) {
-    list[i].dataset.email = users[i].email;
-    list[i].dataset.phone = users[i].phone;
-  }
 }
 
 document.addEventListener('DOMContentLoaded', init);
