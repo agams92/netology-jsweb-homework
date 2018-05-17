@@ -1,7 +1,7 @@
 'use strict';
 
 function toggleMenu(event) {
-  if (this.classList.contains('show')) {
+  if (this.classList.contains('show') && event.target.dataset.toggle === 'dropdown') {
     this.classList.remove('show');
     this.classList.add('hide');
   } else {
@@ -11,6 +11,7 @@ function toggleMenu(event) {
 }
 
 function openLink(event) {
+  event.preventDefault();
   console.log(this.textContent);
 }
 
