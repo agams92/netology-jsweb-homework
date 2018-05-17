@@ -3,7 +3,6 @@
 document.getElementsByClassName('items-list')[0].addEventListener('click', buttonAdd);
 
 function buttonAdd() {
-    console.log(event.currentTarget)
     if (!event.target.classList.contains('add-to-cart')) return;
     else {
         let item = {};
@@ -11,5 +10,4 @@ function buttonAdd() {
         item.price = event.target.dataset.price;
         addToCart(item);
     }
-    
 }
