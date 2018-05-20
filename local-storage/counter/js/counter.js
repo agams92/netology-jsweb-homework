@@ -12,8 +12,8 @@ if(!localStorage.counter) {
 counter.innerText = localStorage.counter;
 
 function count(event) {
-    if (event.target == plus) localStorage.counter = Number(localStorage.counter) + 1;
-    else if(event.target == minus) localStorage.counter = Number(localStorage.counter) - 1;
+    if (event.target == plus) localStorage.counter++;
+    else if(event.target == minus) localStorage.counter--;
     else if(event.target == reset) localStorage.counter = 0;
     counter.innerText = localStorage.counter;
 }
