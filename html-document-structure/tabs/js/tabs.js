@@ -4,27 +4,23 @@ const articlesList = document.querySelector('.tabs-content');
 completeTabs();
 
 function completeTabs() {
-    for (let i = 0; i < 2; i++) {
-        let tab = tabsList.querySelector('li').cloneNode(true);
-        tabsList.appendChild(tab);
-    }
-    let tabs = tabsList.querySelectorAll('li');
     let articles = articlesList.children;
-    for (let i = 0; i < 3; i++) {
-        tabs[i].innerHTML = '<a class="fa ' + articles[i].dataset.tabIcon + '">' + articles[i].dataset.tabTitle + '</a>';
+    for (let i = 0; i < articles.length; i++) {
+        let tab = tabsList.querySelector('li');
+        tab.innerHTML = `<a class="fa ${articles[i].dataset.tabIcon}">${articles[i].dataset.tabTitle}</a>`;
+        tabsList.appendChild(tab.cloneNode(true));
         articles[i].classList.add('hidden');
-        tabs[i].addEventListener('click', event => changeClasses(tabs, articles, i));
+        if(i == articles.length - 1) tab.parentNode.removeChild(tab);
     }
-    changeClasses(tabs, articles, 0);
+    Array.from(tabsList.children).forEach((tab, index) => tab.addEventListener('click', event => changeClasses(index)));
+    changeClasses(0);
 }
 
-function changeClasses(tabs, articles, index) {
-    if(!tabs[index].classList.contains('ui-tabs-active') && articles[index].classList.contains('hidden')){
-        Array.from(tabs).forEach(tab => tab.classList.remove('ui-tabs-active'));
-        tabs[index].classList.add('ui-tabs-active');
-        Array.from(articles).forEach(article => article.classList.add('hidden'));
-        articles[index].classList.remove('hidden');
-    } else {
-        return;
-    }
+function changeClasses(index) {
+    console.log(index);
+    if(tabsList.children[index].classList.contains('ui-tabs-active')) return;
+    Array.from(tabsList.children).forEach(tab => tab.classList.remove('ui-tabs-active'));
+    tabsList.children[index].classList.add('ui-tabs-active');
+    Array.from(articlesList.children).forEach(article => article.classList.add('hidden'));
+    articlesList.children[index].classList.remove('hidden');
 }

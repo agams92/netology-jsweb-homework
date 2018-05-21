@@ -9,32 +9,34 @@ Array.from(buttons).forEach(button => {
     switch (data) {
         case 'prev':
             prevButton = button;
-            prevButton.addEventListener('click', event => moveSlide(false));
+            prevButton.addEventListener('click', event => moveSlide(event, false));
         break;
         case 'next':
             nextButton = button;
-            nextButton.addEventListener('click', event => moveSlide(true));
+            nextButton.addEventListener('click', event => moveSlide(event, true));
         break;
         case 'first':
             firstButton = button;
-            firstButton.addEventListener('click', event => moveAllSlides(false));
+            firstButton.addEventListener('click', event => moveAllSlides(event, false));
         break;
         case 'last':
             lastButton = button;
-            lastButton.addEventListener('click', event => moveAllSlides(true));
+            lastButton.addEventListener('click', event => moveAllSlides(event, true));
         break;
     }
 })
 
 formatClasses(slides[1], slides[0]);
 
-function moveSlide(isForward) {
+function moveSlide(event, isForward) {
+    if(event.target.classList.contains('disabled')) return;
     const currentSlide = gallery.querySelector('.slide-current');
     const toSlide = isForward ? currentSlide.nextElementSibling : currentSlide.previousElementSibling;
     formatClasses(currentSlide, toSlide);
 }
 
-function moveAllSlides(isForward) {
+function moveAllSlides(event, isForward) {
+    if(event.target.classList.contains('disabled')) return;
     const currentSlide = gallery.querySelector('.slide-current');
     const toSlide = isForward ? slides[slides.length - 1] : slides[0];
     formatClasses(currentSlide, toSlide);
