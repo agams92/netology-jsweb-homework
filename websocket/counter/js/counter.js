@@ -9,6 +9,7 @@ connection.addEventListener('message', event => {
     openConnectionsCount.innerText = data.connections;
     errorConnectionsCount.innerText = data.errors;
 })
+
 window.addEventListener('beforeunload', event => {
     connection.close(1000, 'WASTED');
 })
