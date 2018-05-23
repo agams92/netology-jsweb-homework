@@ -9,5 +9,4 @@ function sendCoordinates() {
 }
 
 connection.addEventListener('open', event => showBubbles(connection));
-connection.addEventListener('message', event => showBubbles(connection));
 connection.addEventListener('error', event => console.log('Error= ' + event.error));
