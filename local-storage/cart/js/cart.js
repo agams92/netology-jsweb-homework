@@ -127,7 +127,6 @@ function updateCart() {
     } catch (error) {
         alert(error.message);
     }
-
 }
 
 function addToCart(event) {
@@ -178,7 +177,6 @@ function removeFromCart(event) {
     } catch (error) {
         alert(error.message);
     }
-
 }
 
 function rememberChecked(event,inputs) {
