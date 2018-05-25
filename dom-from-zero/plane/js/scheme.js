@@ -104,6 +104,7 @@ function createScheme(block){
 
 function reserveSeat() {
     if(!event.target.classList.contains('col-xs-4') && !event.target.classList.contains('seat-label')) return;
+    if(event.target.classList.contains('no-seat')) return;
     if (event.target.classList.contains('col-xs-4')) {
         if (event.altKey) {
             event.target.classList.remove('adult');
@@ -134,6 +135,7 @@ function fillMap(){
     event.preventDefault();
     let seats = Array.from(seatMap.getElementsByClassName('col-xs-4'));
     seats.forEach(seat => {
+        if (seat.classList.contains('no-seat')) return;
         if (event.altKey) {
             seat.classList.add('half');
         } else {
