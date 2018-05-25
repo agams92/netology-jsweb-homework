@@ -101,7 +101,7 @@ function updateCart() {
                         cartSnippet.innerHTML += `<div class="quick-cart-product quick-cart-product-static" id="quick-cart-product-${product.id}" style="opacity: 1;">
                         <div class="quick-cart-product-wrap">
                           <img src="${product.pic}" title="${product.title}">
-                          <span class="s1" style="background-color: #000; opacity: .5">$800.00</span>
+                          <span class="s1" style="background-color: #000; opacity: .5">${product.price}</span>
                           <span class="s2"></span>
                         </div>
                         <span class="count hide fadeUp" id="quick-cart-product-count-${product.id}">${product.quantity}</span>
