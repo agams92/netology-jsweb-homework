@@ -12,7 +12,6 @@ const totalHalf = document.getElementById('totalHalf');
 buttonShowMap.addEventListener('click', event => formPlane(select.value));
 buttonFillMap.addEventListener('click', fillMap);
 buttonEmptyMap.addEventListener('click', emptyMap);
-seatMap.addEventListener('click', reserveSeat);
 
 if(!document.getElementsByClassName('seating-row')[0]){
     buttonFillMap.setAttribute('disabled',true);
@@ -27,34 +26,30 @@ function formPlane(planeModel) {
         .then(res => res.json())
         .then(plane => {
             seatMap.innerHTML = '';
-            totalReserved.innerText = 0;
-            totalAdult.innerText = 0;
-            totalHalf.innerText = 0;
             seatMapTitle.innerText = `${plane.title} (${plane.passengers} пассажиров)`;
             seatMap.appendChild(
                 createScheme(plane.scheme.map((row,index) => createRow(row,index, plane.letters4, plane.letters6)))
             );
             buttonFillMap.removeAttribute('disabled');
             buttonEmptyMap.removeAttribute('disabled');
+            Array.from(document.getElementsByClassName('col-xs-4')).forEach(seat => seat.addEventListener('click', reserveSeat));
+            calculateTotal();
         })
 }
 
 function createRow(seatNumbers,index, seatLetters4, seatLetters6){
-    let noSeatFour, noSeatAll, seat, noNumber = '';
+    let noSeatFour, noSeatAll;
+    let seat = 'seat';
+    let noNumber = '';
     let i = 0;
     let i2 = 0;
-    seat = 'seat';
-    if (seatNumbers === 6) {
-        noSeatFour = false;
-        noSeatAll = false;
-    } else if (seatNumbers === 4) {
+    if (seatNumbers === 4) {
         noSeatFour = 'no-seat';
         seatLetters6 = [];
-    } else {
+    } else if (seatNumbers === 0) {
+        noSeatAll = 'no-seat';
         seatLetters6 = [];
         seatLetters4 = [];
-        noSeatFour = false;
-        noSeatAll = 'no-seat';
     }
     return {
         tag: 'div', cls: ['row', 'seating-row', 'text-center'],
@@ -93,8 +88,7 @@ function createScheme(block){
     }
 
     let element = document.createElement(block.tag || 'div');
-    [].concat(block.cls || [])
-        .forEach(className => element.classList.add(className));
+    [].concat(block.cls || []).forEach(className => element.classList.add(className));
     element.appendChild(createScheme(block.content));
     if(block.txt) {
         element.innerText = block.txt;
@@ -102,33 +96,16 @@ function createScheme(block){
     return element;
 }
 
-function reserveSeat() {
-    if(!event.target.classList.contains('col-xs-4') && !event.target.classList.contains('seat-label')) return;
-    if(event.target.classList.contains('no-seat')) return;
-    if (event.target.classList.contains('col-xs-4')) {
-        if (event.altKey) {
-            event.target.classList.remove('adult');
-            event.target.classList.toggle('half');
-        } else {
-            event.target.classList.remove('half');
-            event.target.classList.toggle('adult');
-        }
-    } else if (event.target.classList.contains('seat-label')) {
-        if (event.altKey) {
-            event.target.parentElement.classList.remove('adult');
-            event.target.parentElement.classList.toggle('half');
-        } else {
-            event.target.parentElement.classList.remove('half');
-            event.target.parentElement.classList.toggle('adult');
-        }
+function reserveSeat(){
+    if(event.currentTarget.classList.contains('no-seat')) return;
+    if (event.altKey) {
+        event.currentTarget.classList.remove('adult');
+        event.currentTarget.classList.toggle('half');
+    } else {
+        event.currentTarget.classList.remove('half');
+        event.currentTarget.classList.toggle('adult');
     }
     calculateTotal();
-}
-
-function calculateTotal() {
-    totalReserved.innerText = document.getElementsByClassName('half').length + document.getElementsByClassName('adult').length;
-    totalAdult.innerText = document.getElementsByClassName('adult').length;
-    totalHalf.innerText = document.getElementsByClassName('half').length;
 }
 
 function fillMap(){
@@ -154,4 +131,10 @@ function emptyMap(){
         }
     )
     calculateTotal();
+}
+
+function calculateTotal() {
+    totalReserved.innerText = document.getElementsByClassName('half').length + document.getElementsByClassName('adult').length;
+    totalAdult.innerText = document.getElementsByClassName('adult').length;
+    totalHalf.innerText = document.getElementsByClassName('half').length;
 }
