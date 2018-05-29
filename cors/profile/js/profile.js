@@ -1,6 +1,10 @@
 'use strict';
 loadData('https://neto-api.herokuapp.com/profile/me')
-    .then(insertUser)
+    .then(user => {
+        insertUser(user);
+        return loadData(`https://neto-api.herokuapp.com/profile/${user.id}/technologies`);
+    })
+    .then(insertTechs);
 
 function loadData(url){
     const functionName = 'callback' + (Math.random() * (1000 - 1) + 1).toFixed(0);
@@ -17,9 +21,6 @@ function insertUser(user) {
     document.querySelector('[data-description]').innerText = user.description;
     document.querySelector('[data-pic]').setAttribute('src', user.pic);
     document.querySelector('[data-position]').innerText = user.position;
-    let techUrl = `https://neto-api.herokuapp.com/profile/${user.id}/technologies`;
-    loadData(techUrl)
-        .then(insertTechs);
 }
 
 function insertTechs(techs) {
