@@ -1,15 +1,17 @@
 'use strict';
 let foodId = 42;
-loadData(`https://neto-api.herokuapp.com/food/${foodId}`)
-    .then(recipe => {
-        insertRecipe(recipe);
-        return loadData(`https://neto-api.herokuapp.com/food/${foodId}/rating`);
-    })
-    .then(rating => {
-        insertRating(rating);
-        return loadData(`https://neto-api.herokuapp.com/food/${foodId}/consumers`);
-    })
-    .then(insertUser);
+Promise.all([loadData(`https://neto-api.herokuapp.com/food/${foodId}`), 
+            loadData(`https://neto-api.herokuapp.com/food/${foodId}/rating`), 
+            loadData(`https://neto-api.herokuapp.com/food/${foodId}/consumers`)
+        ])
+        .then(results => {
+            insertRecipe(results[0]);
+            insertRating(results[1]);
+            insertUser(results[2]);
+        })
+        .catch(error => {
+            console.log(error);
+        })
 
 function loadData(url){
     const functionName = 'callback' + (Math.random() * (1000 - 1) + 1).toFixed(0);
