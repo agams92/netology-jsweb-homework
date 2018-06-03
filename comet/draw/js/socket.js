@@ -1,11 +1,8 @@
 'use strict';
-let ws = new WebSocket('wss://neto-api.herokuapp.com/draw');
-window.editor.addEventListener('update', check);
+const ws = new WebSocket('wss://neto-api.herokuapp.com/draw');
+window.editor.addEventListener('update', updateDraw);
 
-function check(){
-    let canvas = document.getElementById('canvas');
-    let context = canvas.getContext('2d');
-    let image = context.getImageData(0,0,canvas.width,canvas.height);
-    let binary = Uint8Array.from(image.data);
-    ws.send(binary.buffer);
+function updateDraw(){
+    const canvas = document.getElementById('canvas');
+    canvas.toBlob(img => ws.send(img));
 }
