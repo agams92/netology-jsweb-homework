@@ -43,8 +43,7 @@ function drawLine(event){
 }
 
 function handleColor(event) {
-    if (event.shiftKey) colorHue--;
-    else colorHue++;
+    event.shiftKey ? colorHue -- : colorHue++;
     if (colorHue == 359) colorHue = 0;
     else if (colorHue == 0) colorHue = 359;
 }
