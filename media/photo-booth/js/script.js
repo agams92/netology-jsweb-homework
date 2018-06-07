@@ -4,7 +4,6 @@ const canvas = document.createElement('canvas');
 const gallery = document.getElementsByClassName('list')[0];
 const ctx = canvas.getContext('2d');
 if(!navigator.mediaDevices) handleError(new Error);
-if(!navigator.getUserMedia) handleError(new Error);
 
 createScene();
 navigator.mediaDevices
@@ -37,11 +36,11 @@ function takeSnapshot() {
     const url = canvas.toDataURL();
     const newSnapshot = insertPicture(createPicture(url));
     const oldSnapshot = gallery.getElementsByTagName('figure')[0];
-    newSnapshot.addEventListener('click', url => handleSnapshotClick(url));
+    newSnapshot.addEventListener('click', (event, url) => handleSnapshotClick(event, url));
     gallery.insertBefore(newSnapshot, oldSnapshot);
 }
 
-function handleSnapshotClick(url) {
+function handleSnapshotClick(event, url) {
     const figure = event.currentTarget;
     const downloadButton = figure.querySelectorAll('figcaption a')[0];
     const uploadButton = figure.querySelectorAll('figcaption a')[1];
