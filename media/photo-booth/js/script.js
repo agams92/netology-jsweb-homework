@@ -3,7 +3,25 @@ const video = document.createElement('video');
 const canvas = document.createElement('canvas');
 const gallery = document.getElementsByClassName('list')[0];
 const ctx = canvas.getContext('2d');
-if(!navigator.mediaDevices) handleError(new Error);
+if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+}
+
+if (navigator.mediaDevices.getUserMedia === undefined) {
+    navigator.mediaDevices.getUserMedia = function (constraints) {
+        var getUserMedia = navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia;
+
+        if (!getUserMedia) {
+            return handleError(new Error('getUserMedia is not implemented in this browser'));
+        }
+        return new Promise((resolve, reject) => {
+            getUserMedia.call(navigator, constraints, resolve, reject);
+        });
+    }
+}
 
 createScene();
 navigator.mediaDevices
